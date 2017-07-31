@@ -1,0 +1,19 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Amazon-like Storefront",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manderson55/bamazon.git"
+  },
+  "author": "Manderson55",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manderson55/bamazon/issues"
+  },
+  "homepage": "https://github.com/Manderson55/bamazon#readme"
+}
