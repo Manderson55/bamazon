@@ -92,7 +92,7 @@ function userInput(){
 
       },
       ]).then(function(input) {
-          console.log("Customer has selected: \n    item_id = "  + 
+          console.log("\n You want to order: \n    item_id = "  + 
                        input.itemId + 
                        "\n    quantity = " + input.quantity);
           var item = input.itemId;
@@ -114,9 +114,11 @@ function userInput(){
               var productData = data[0];
               // select the first entry of the object returned and compare the quantity ordered with the stock_quantity
               if (quantity <= productData.stock_quantity) {
+
+                console.log(" "); 
                 console.log("Placing your Order");
                 console.log(" ");
-                console.log(" ");               
+              
 
                 var updateQueryStr = "UPDATE products SET stock_quantity = " + 
                 (productData.stock_quantity - quantity) + 
