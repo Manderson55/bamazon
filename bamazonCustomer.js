@@ -44,15 +44,15 @@ function displayProducts() {
 function userInput(){
       inquirer.prompt([
       {
-        type: 'input',
-        name: 'itemId',
-        message: 'What is the PRODUCT ID of the item you want to purchase?',
+        type: "input",
+        name: "itemId",
+        message: "What is the PRODUCT ID of the item you want to purchase?",
         validate: function(input) {
             var integer = Number.isInteger(parseFloat(input));
             //Math.sign will return 1 if the number is a positive number
             var sign = Math.sign(input); 
 
-            if (input === '') {
+            if (input === " ") {
                     console.log("Please enter the Product ID");
                     return false;
             } else {
@@ -68,15 +68,15 @@ function userInput(){
 
       },
       {
-        type: 'input',
-        name: 'quantity',
-        message: 'How many would you like to purchase?',
+        type: "input",
+        name: "quantity",
+        message: "How many would you like to purchase?",
         validate: function(input) {
             var integer = Number.isInteger(parseFloat(input));
             //Math.sign will return 1 if the number is a positive number
             var sign = Math.sign(input); 
 
-            if (input === '') {
+            if (input === " ") {
                     console.log("Please enter the number of items you want to purchase");
                     return false;
             } else {
@@ -111,23 +111,30 @@ function userInput(){
               displayProducts();
               setTimeout(function(){ userInput()},  1000); 
             } else {
+
               var productData = data[0];
               // select the first entry of the object returned and compare the quantity ordered with the stock_quantity
+    
+              console.log("Product = " + productData.product_name); //display item being ordered
+              console.log("Quantity Available = " + productData.stock_quantity); //display quantity available
               if (quantity <= productData.stock_quantity) {
 
                 console.log(" "); 
                 console.log("Placing your Order");
                 console.log(" ");
               
-
+                // updating the stock_quantity in the DB to subtract the quantity ordered
                 var updateQueryStr = "UPDATE products SET stock_quantity = " + 
                 (productData.stock_quantity - quantity) + 
                 " WHERE item_id =  " + item;
 
                 connection.query(updateQueryStr, function(err, data) {
                   if (err) throw err;
-
+ 
                   console.log("Your order has been successfully placed. \n Your total is $ "+ productData.price * quantity);
+                  console.log(" ");
+                  console.log(" ");  
+
                   //end the connection
                   connection.end();
                 })
