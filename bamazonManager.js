@@ -44,7 +44,9 @@ function managerSelection(){
                     displayLowInventory();
                     break;
                 case "Add to Inventory":
-                     addToInventory();
+                    displayProducts();
+                    // wait 2 seconds after displayProducts and before addToInventory prompts
+                    setTimeout(function(){ addToInventory()},  2000);                     
                     break;
                 default:
                     addNewProduct();
@@ -59,6 +61,7 @@ function displayProducts() {
     if (err) throw err;
  //   Log all results of the SELECT statement
  //   console.log(res);
+    console.log(" ");
     console.log("PRODUCT ID" + " | " + 
                 "       PRODUCT        " + " | " +
                 "   PRICE   " + " | " +
@@ -72,6 +75,7 @@ function displayProducts() {
     }
     console.log("-------------------------------------------------------------------");
   });
+
 } // end function displayProducts
 
 //--------------------------------------------------------------------------------
@@ -105,7 +109,8 @@ function displayLowInventory() {
     }
     console.log("-------------------------------------------------------------------");
   });
-
+  //end the connection
+  connection.end();
 
 } // end function displayLowInventory
 
@@ -113,7 +118,110 @@ function displayLowInventory() {
 
 function addToInventory() {
 
+    
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "itemId",
+        message: "What is the PRODUCT ID of the item you want to add Inventory to?",
+        validate: function(input) {
+            var integer = Number.isInteger(parseFloat(input));
+            //Math.sign will return 1 if the number is a positive number
+            var sign = Math.sign(input); 
 
+            if (input === " ") {
+                    console.log("Please enter the Product ID");
+                    return false;
+            } else {
+                   if (integer && (sign === 1)) {
+                        return true;
+                    } else {
+                        return "Please enter a number greater than 0 with no decimals.";
+                        return false;
+                       }
+                   }
+                   
+            }
+
+      },
+      {
+        type: "input",
+        name: "quantity",
+        message: "How many would you like to add to the Inventory?",
+        validate: function(input) {
+            var integer = Number.isInteger(parseFloat(input));
+            //Math.sign will return 1 if the number is a positive number
+            var sign = Math.sign(input); 
+
+            if (input === " ") {
+                    console.log("Please enter the number of items you want to add");
+                    return false;
+            } else {
+                   if (integer && (sign === 1)) {
+                        return true;
+                    } else {
+                        console.log("   Please enter a number greater than 0 with no decimals.");
+                        return false;
+                       }
+                    }
+          }          
+      },
+      ]).then(function(input) {
+          console.log("\n You want to add " + input.quantity + " to item ID # "  +  input.itemId);
+          var item = input.itemId;
+          var quantity = parseInt(input.quantity);
+          console.log(typeof(quantity));
+          var queryStr = "SELECT * FROM products WHERE ?"; 
+          // connect to the DB products table with the item id supplied by the manager
+          connection.query(queryStr, {item_id: item}, function(err, data) {
+            //if you can't find the product and returns an error
+            if (err) throw err;
+            //if there is no information returned prompt to manager to check the item ID and display the products again
+            if (data.length === 0) {
+              console.log("ERROR: Invalid Item ID. Please select a valid Item ID.");
+              console.log(" ");
+              console.log(" ");  
+              displayProducts();
+              setTimeout(function(){ addToInventory()},  1000); 
+            } else {
+
+              var productData = data[0];
+              // select the first entry of the object returned and compare the quantity ordered with the stock_quantity
+    
+              console.log("Product = " + productData.product_name); //display item being ordered
+              console.log("Quantity Available = " + productData.stock_quantity); //display quantity available
+
+              console.log(" "); 
+              console.log("Updating Inventory");
+              console.log(" ");
+              
+              // updating the stock_quantity in the DB to add the new Inventory amount
+              var newStockQuantity = 0;
+              console.log(typeof(newStockQuantity));
+              console.log(typeof(quantity));
+              newStockQuantity = productData.stock_quantity + quantity;
+              console.log(newStockQuantity);
+              console.log(typeof(newStockQuantity));
+
+              var updateQueryStr = "UPDATE products SET stock_quantity = " + 
+                newStockQuantity + 
+                " WHERE item_id =  " + item;
+
+                connection.query(updateQueryStr, function(err, data) {
+                  if (err) throw err;
+ 
+                  console.log("Your have succesfully added to the Inventory");
+                  console.log("The new Stock Quantity for Item ID # " + item + " is " + newStockQuantity);
+                  console.log(" ");
+                  console.log(" ");  
+
+                  //end the connection
+                  connection.end();
+                });
+              } //end else if data length is === 0
+            }); // end connection query
+          }); // end then.
+       
   } // end function addToInventory
 
 //--------------------------------------------------------------------------------

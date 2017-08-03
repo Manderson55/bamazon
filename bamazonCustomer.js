@@ -17,8 +17,8 @@ connection.connect(function(err) {
   if (err) throw err;
 //  console.log("connected as id " + connection.threadId + "\n");
   displayProducts();
-  // give the user a 3 second delay to look at the products before inquirer is run
-  setTimeout(function(){ userInput()},  3000); 
+  // give the user a 2 second delay to look at the products before inquirer is run
+  setTimeout(function(){ userInput()},  2000); 
   
 });
 
@@ -96,8 +96,9 @@ function userInput(){
                        input.itemId + 
                        "\n    quantity = " + input.quantity);
           var item = input.itemId;
-          var quantity = input.quantity;
-
+          var quantity = parseInt(input.quantity); //making the value an integer
+          console.log(typeof(input.quantity));
+          console.log(typeof(quantity));
           var queryStr = "SELECT * FROM products WHERE ?"; 
           // connect to the DB products table with the item id supplied by the user
           connection.query(queryStr, {item_id: item}, function(err, data) {
@@ -114,26 +115,27 @@ function userInput(){
 
               var productData = data[0];
               // select the first entry of the object returned and compare the quantity ordered with the stock_quantity
-    
-              console.log("Product = " + productData.product_name); //display item being ordered
-              console.log("Quantity Available = " + productData.stock_quantity); //display quantity available
-              if (quantity <= productData.stock_quantity) {
+              var currentStockQuantity = parseInt(productData.stock_quantity);
+              console.log("We have " + productData.stock_quantity + " " + productData.product_name + "s in stock"); //display item being ordered
+
+              if (quantity <= currentStockQuantity) {
 
                 console.log(" "); 
                 console.log("Placing your Order");
                 console.log(" ");
-              
+
+                console.log( "before updating DB quantity = " + typeof(quantity));
+                var newStockQuantity = (currentStockQuantity - quantity);
                 // updating the stock_quantity in the DB to subtract the quantity ordered
                 var updateQueryStr = "UPDATE products SET stock_quantity = " + 
-                (productData.stock_quantity - quantity) + 
-                " WHERE item_id =  " + item;
+                                     newStockQuantity + 
+                                     " WHERE item_id =  " + item;
 
                 connection.query(updateQueryStr, function(err, data) {
                   if (err) throw err;
  
                   console.log("Your order has been successfully placed. \n Your total is $ "+ productData.price * quantity);
                   console.log(" ");
-                  console.log(" ");  
 
                   //end the connection
                   connection.end();

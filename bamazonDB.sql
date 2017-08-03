@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS bamazon_DB;
-
-CREATE DATABASE bamazon_DB;
-
 USE bamazon_DB;
 
 CREATE TABLE products (
@@ -15,16 +11,17 @@ CREATE TABLE products (
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES 
-("White Skirt", "Women Clothing", 34.99, 25),
-("Blue Skirt", "Women Clothing", 29.99, 25),
-("Pink Skirt", "Women Clothing", 24.99, 50),
-("White Blouse", "Women Clothing", 39.99, 75),
-("Beige Blouse", "Women Clothing", 35.99, 50),
-("Black Pants", "Women Clothing", 49.99, 100),
-("Dark Jeans", "Men Clothing", 49.99, 100),
-("Light Jeans", "Men Clothing", 39.99, 50),
-("White T-shirt", "Women Clothing", 9.99, 50),
-("White T-shirt", "Men Clothing", 12.99, 50),
-("Black T-shirt", "Men Clothing", 12.99, 50),
-("Black Dress", "Women Clothing", 69.99, 30);
+("   White Skirt", "Women Clothing", 34.99, 5),
+("    Blue Skirt", "Women Clothing", 29.99, 25),
+("    Pink Skirt", "Women Clothing", 24.99, 50),
+("  White Blouse", "Women Clothing", 39.99, 75),
+("  Beige Blouse", "Women Clothing", 35.99, 50),
+("   Black Pants", "Women Clothing", 49.99, 1),
+("    Dark Jeans", "  Men Clothing", 49.99, 100),
+("   Light Jeans", "  Men Clothing", 39.99, 50),
+(" White T-shirt", "Women Clothing", 9.99, 50),
+("White T-shirt", "  Men Clothing", 12.99, 50),
+("Black T-shirt", "  Men Clothing", 12.99, 2),
+("  Black Dress", "Women Clothing", 69.99, 30);
 
+SELECT * FROM products;
