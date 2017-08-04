@@ -197,11 +197,8 @@ function addToInventory() {
               
               // updating the stock_quantity in the DB to add the new Inventory amount
               var newStockQuantity = 0;
-              console.log(typeof(newStockQuantity));
-              console.log(typeof(quantity));
+ 
               newStockQuantity = productData.stock_quantity + quantity;
-              console.log(newStockQuantity);
-              console.log(typeof(newStockQuantity));
 
               var updateQueryStr = "UPDATE products SET stock_quantity = " + 
                 newStockQuantity + 
@@ -228,6 +225,109 @@ function addToInventory() {
 
 function addNewProduct() {
 
+     inquirer.prompt([
+      {
+        type: "input",
+        name: "productName",
+        message: "What is the PRODUCT Name?",
+        validate: function(input) {
+            if (input === "") {
+                    console.log("Please enter the Product Name");
+                    return false;
+            } else {
+                    return true;
+                    } 
+            }
+                   
+       },
+       {
+        type: "list",
+        name: "command",  
+        message: "What is the Department Name?",
+        choices: ["Men's Clothing", "Women's Clothing", "Children's Clothing"]        
+       },
+      {
+        type: "input",
+        name: "price",
+        message: "What is the retail price?",
+        validate: function(input) {
+            var integer = Number.isInteger(parseInt(input));
+            //Math.sign will return 1 if the number is a positive number
+            var sign = Math.sign(input); 
+
+            if (input === " ") {
+                    console.log("Please enter the price of the item");
+                    return false;
+            } else {
+                   if (integer && (sign === 1)) {
+                        return true;
+                    } else {
+                        console.log("Please enter a number greater than 0");
+                        return false;
+                       }
+                    }
+          }          
+      },
+      {
+        type: "input",
+        name: "quantity",
+        message: "How many would you like to add to the Inventory?",
+        validate: function(input) {
+            var integer = Number.isInteger(parseFloat(input));
+            //Math.sign will return 1 if the number is a positive number
+            var sign = Math.sign(input); 
+
+            if (input === " ") {
+                    console.log("Please enter the number of items you want to add");
+                    return false;
+            } else {
+                   if (integer && (sign === 1)) {
+                        return true;
+                    } else {
+                        console.log("Please enter a number greater than 0 with no decimals.");
+                        return false;
+                       }
+                    }
+          }          
+      },
+        ]).then(function(inquirerResponse) {
+
+          switch(inquirerResponse.command) {
+                case "Men's Clothing":
+                    inquirerResponse.departmentName = "Men's Clothing";
+                    break;
+                case "Women's Clothing":
+                    inquirerResponse.departmentName = "Women's Clothing";
+                    break;
+                default:
+                    inquirerResponse.departmentName = "Children's Clothing";
+          }
+          console.log("\n You want to add " + inquirerResponse.quantity + "  " + inquirerResponse.productName + 
+                      "\n to "  +  inquirerResponse.departmentName + " Department" +
+                      "\n with a retail price of " + inquirerResponse.price + " per unit.");
+
+          var newProduct = inquirerResponse.productName;
+          var newProductDepartment = inquirerResponse.departmentName;
+          var newProductPrice = inquirerResponse.price;
+          var newProductQuantity = inquirerResponse.quantity;
+
+          var addQueryStr = "INSERT INTO products SET ?"; 
+          console.log(addQueryStr);          
+          connection.query(addQueryStr,{product_name : newProduct, department_name : newProductDepartment, price: newProductPrice, stock_quantity : newProductQuantity},function(err, data){
+
+                  if (err) throw err;
+ 
+                  console.log("Your have succesfully added a NEW Product to the Inventory");
+  
+                  console.log(" ");
+                  console.log(" ");  
+
+                  //end the connection
+                  connection.end();
+                });
+           });  
+
+
+
 
 } // end function addNewProduct
-

@@ -62,10 +62,8 @@ function userInput(){
                         return "Please enter a number greater than 0 with no decimals.";
                         return false;
                        }
-            }
-                   
+            }                   
          }
-
       },
       {
         type: "input",
