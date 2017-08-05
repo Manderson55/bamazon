@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n");
+ // console.log("connected as id " + connection.threadId + "\n");
  
   managerSelection();
 });
@@ -39,6 +39,7 @@ function managerSelection(){
             switch(inquirerResponse.command) {
                 case "View Products for Sale":
                     displayProducts();
+                    setTimeout(function(){ connection.end()},  2000); 
                     break;
                 case "View Low Inventory":
                     displayLowInventory();
@@ -170,7 +171,7 @@ function addToInventory() {
           console.log("\n You want to add " + input.quantity + " to item ID # "  +  input.itemId);
           var item = input.itemId;
           var quantity = parseInt(input.quantity);
-          console.log(typeof(quantity));
+
           var queryStr = "SELECT * FROM products WHERE ?"; 
           // connect to the DB products table with the item id supplied by the manager
           connection.query(queryStr, {item_id: item}, function(err, data) {
@@ -244,7 +245,7 @@ function addNewProduct() {
         type: "list",
         name: "command",  
         message: "What is the Department Name?",
-        choices: ["Men's Clothing", "Women's Clothing", "Children's Clothing"]        
+        choices: ["Men Clothing", "Women Clothing", "Children Clothing"]        
        },
       {
         type: "input",
@@ -293,14 +294,14 @@ function addNewProduct() {
         ]).then(function(inquirerResponse) {
 
           switch(inquirerResponse.command) {
-                case "Men's Clothing":
-                    inquirerResponse.departmentName = "Men's Clothing";
+                case "Men Clothing":
+                    inquirerResponse.departmentName = "Men Clothing";
                     break;
-                case "Women's Clothing":
-                    inquirerResponse.departmentName = "Women's Clothing";
+                case "Women Clothing":
+                    inquirerResponse.departmentName = "Women Clothing";
                     break;
                 default:
-                    inquirerResponse.departmentName = "Children's Clothing";
+                    inquirerResponse.departmentName = "Children Clothing";
           }
           console.log("\n You want to add " + inquirerResponse.quantity + "  " + inquirerResponse.productName + 
                       "\n to "  +  inquirerResponse.departmentName + " Department" +
@@ -318,16 +319,14 @@ function addNewProduct() {
                   if (err) throw err;
  
                   console.log("Your have succesfully added a NEW Product to the Inventory");
-  
+        
                   console.log(" ");
+                  displayProducts();
                   console.log(" ");  
 
                   //end the connection
                   connection.end();
                 });
            });  
-
-
-
 
 } // end function addNewProduct

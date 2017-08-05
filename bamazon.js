@@ -9,17 +9,17 @@ inquirer
   .prompt([
      {type: "list",
       message: "What is your function?",
-      choices: ["Customer", "Manager", "Supervisor"],
+      choices: ["Customer", "Manager"],
       name: "command"
     }
  ])
   .then(function(inquirerResponse) {
         switch(inquirerResponse.command) {
           case "Customer":
-
+              bamazonCustomer;
               break;
           case "Manager":
-
+              bamazonManager;
               break;
           default:
 

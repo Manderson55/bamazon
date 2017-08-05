@@ -95,8 +95,7 @@ function userInput(){
                        "\n    quantity = " + input.quantity);
           var item = input.itemId;
           var quantity = parseInt(input.quantity); //making the value an integer
-          console.log(typeof(input.quantity));
-          console.log(typeof(quantity));
+
           var queryStr = "SELECT * FROM products WHERE ?"; 
           // connect to the DB products table with the item id supplied by the user
           connection.query(queryStr, {item_id: item}, function(err, data) {
@@ -122,7 +121,6 @@ function userInput(){
                 console.log("Placing your Order");
                 console.log(" ");
 
-                console.log( "before updating DB quantity = " + typeof(quantity));
                 var newStockQuantity = (currentStockQuantity - quantity);
                 // updating the stock_quantity in the DB to subtract the quantity ordered
                 var updateQueryStr = "UPDATE products SET stock_quantity = " + 
@@ -150,4 +148,4 @@ function userInput(){
             }
           });
         });
- }   
+ }
