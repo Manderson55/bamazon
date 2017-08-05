@@ -3,7 +3,8 @@ Amazon-like storefront
 
 ## Overview
 
-This is an Amazon-like storefront. The app will take in orders from customers and deplete stock from the store's inventory. 
+This is an Amazon-like storefront. The app will take in orders from customers and deplete stock from the store's inventory. The manager function will allow to add to inventory,  view low stock items and add new inventory items.
+
 
 ### Customer view: node bamazonCustomer
 
@@ -34,6 +35,10 @@ and then they can modify their order.
     
     * Add New Product
 
+  ![GitHub Logo]{images/bamazonManager_options.png}
+Format: ![Alt Text](url)
+
+
   * If a manager selects `View Products for Sale`, the app should list every available item: the item IDs, names, prices, and quantities.
 
   ![GitHub Logo]{images/bamazonManager_saleProducts.png}
@@ -50,7 +55,6 @@ Format: ![Alt Text](url)
 Format: ![Alt Text](url)
 
   * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
-
 
     ![GitHub Logo]{images/bamazonManager_addNewProduct.png}
 Format: ![Alt Text](url)
