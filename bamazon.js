@@ -14,12 +14,12 @@ inquirer
     }
  ])
   .then(function(inquirerResponse) {
-        switch(inquirerResponse.command) {
+      switch(inquirerResponse.command) {
           case "Customer":
-              bamazonCustomer;
+              bamazonCustomer.startCustomer();
               break;
           case "Manager":
-              bamazonManager;
+              bamazonManager.startManager();
               break;
           default:
 

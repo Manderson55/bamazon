@@ -13,13 +13,15 @@ var connection = mysql.createConnection({
   database: "bamazon_DB"
 });
 
-connection.connect(function(err) {
-  if (err) throw err;
- // console.log("connected as id " + connection.threadId + "\n");
- 
-  managerSelection();
-});
+function startManager(){
 
+    connection.connect(function(err) {
+      if (err) throw err;
+     // console.log("connected as id " + connection.threadId + "\n");
+     
+      managerSelection();
+    });
+}
 function managerSelection(){
 
       inquirer
@@ -211,7 +213,10 @@ function addToInventory() {
                   console.log("Your have succesfully added to the Inventory");
                   console.log("The new Stock Quantity for Item ID # " + item + " is " + newStockQuantity);
                   console.log(" ");
+                  console.log("    *****    Displaying New Inventory    *****    ");
+                  displayProducts();
                   console.log(" ");  
+  
 
                   //end the connection
                   connection.end();
@@ -330,3 +335,5 @@ function addNewProduct() {
            });  
 
 } // end function addNewProduct
+
+module.exports = {startManager};
