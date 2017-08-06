@@ -7,7 +7,7 @@ This is an Amazon-like storefront. The app will take in orders from customers an
 
 ### Running the Application
 
-On your terminal type  **node bamazon** and you will be presented with the following screen
+On the terminal type  **node bamazon** and you will be presented with the following screen
 
 ![Bamazon Options](https://manderson55.github.io/bamazon/images/bamazon_NodeBamazon.png)
 
@@ -18,7 +18,11 @@ If you choose Customer you will be presented with this screen
 
 ![Customer Order](https://manderson55.github.io/bamazon/images/bamazon_CustomerOptionSelected.png)
 
-If there is not enough inventory for the purchase, the user wil be presented with this screen
+After proper validation, if the sale goes through, you will be presented with the following screen
+
+![Customer Order](https://manderson55.github.io/bamazon/images/bamazonCustomer_order.png)
+
+If there is not enough inventory for the purchase, you wil be presented with this screen
 
 ![Low stock image](https://manderson55.github.io/bamazon/images/bamazonCustomer_lowStock.png)
 
@@ -49,14 +53,14 @@ If a manager selects `View Products for Sale`, the app will list every available
 
 ##### Manager Option: View Low Inventory
 
-If a manager selects `View Low Inventory`, then it will list all items with an inventory count lower than five.
+If a manager selects `View Low Inventory`, it will print all products with an inventory count lower than five.
 
 ![Manager Options Low Inventory](https://manderson55.github.io/bamazon/images/bamazonManager_lowInventory.png)
 
 ##### Manager Option: Add to Inventory
 
-If a manager selects `Add to Inventory`, the app will display a prompt that will let the manager "add more" of any item currently in the store.
-
+If a manager selects `Add to Inventory`, the app will display a prompt that will let the manager "add more" of any item currently in the store. After proper validation, 
+when the new product is added this screen will be displayed:
 
 ![Manager Options Add to Inventory](https://manderson55.github.io/bamazon/images/bamazonManager_addToInventory.png)
 
@@ -64,8 +68,11 @@ If a manager selects `Add to Inventory`, the app will display a prompt that will
 
 If a manager selects `Add New Product`, it will allow the manager to add a completely new product to the store.
 
+When selecting a department, a set of options will be displayed:
 
-![Manager Options Add to Inventory](https://manderson55.github.io/bamazon/images/bamazonManager_addNewProduct.png)
+![Manager Options Add New Product Department](https://manderson55.github.io/bamazon/images/bamazonManager_addToInventoryOptions.png)
+
+![Manager Options Add New Product](https://manderson55.github.io/bamazon/images/bamazonManager_addNewProduct.png)
 
 
 
